@@ -1,0 +1,4 @@
+zelda-like (ArMM1998) — CC0 / Public Domain
+Source: https://opengameart.org/content/zelda-like-tilesets-and-sprites
+Files: gfx_3.zip -> Overworld.png, objects.png, character.png, NPC_test.png, cave.png, Inner.png, font.png, log.png
+No attribution required (CC0), but crediting ArMM1998 is polite.

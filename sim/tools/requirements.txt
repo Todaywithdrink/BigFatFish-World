@@ -1,0 +1,4 @@
+# Python 依赖（仅 build-tiles.py / build-tiles2.py 等旧资产脚本需要）
+# 新增的 build-atlas.mjs / build-char.mjs 是零依赖 Node 脚本，不需要这些包。
+Pillow>=10.0
+numpy>=1.24

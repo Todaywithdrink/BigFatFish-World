@@ -1,0 +1,19 @@
+{
+  "sourceHashesMatch": true,
+  "staleSources": [],
+  "localLinksValid": true,
+  "brokenLinks": [],
+  "totalReproChecks": 25,
+  "reproduced": 25,
+  "reportChars": 12944,
+  "diagramFences": 1,
+  "coverage": {
+    "route": true,
+    "architecture": true,
+    "fileEvidence": true,
+    "priorities": true,
+    "acceptance": true,
+    "limitations": true,
+    "userScope": true
+  }
+}

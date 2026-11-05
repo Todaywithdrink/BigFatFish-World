@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>大肥鱼世界 · Pixi</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0a0e07; overflow: hidden; }
+  canvas { display: block; image-rendering: pixelated; }
+  #hud { position: fixed; left: 12px; top: 12px; color: #dbe8cc; font: 13px/1.5 'Microsoft YaHei', system-ui, sans-serif; background: rgba(10,14,7,.6); padding: 6px 10px; border-radius: 8px; }
+  #tip { position: fixed; right: 12px; bottom: 12px; color: #8ea57d; font: 12px system-ui; }
+</style>
+</head>
+<body>
+<div id="hud">加载中…</div>
+<div id="tip">滚轮缩放 · 拖动平移</div>
+<script src="/viewer/pixi.min.js"></script>
+<script src="/viewer/atlas.js"></script>
+<script src="/viewer/char.js"></script>
+<script src="/viewer/pixi-view.js"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>大肥鱼世界 · 启动器</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 16c4-6 10-8 16-6 3 1 5 3 8 3-2 2-2 4 0 6-3 0-5 2-8 3-6 2-12 0-16-6Z"/>
+          <path d="M9 13c2 2 2 4 0 6"/><circle cx="21" cy="14.5" r="1.1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>大肥鱼世界</h1>
+        <p>PC 启动器 · 可视化控制台</p>
+      </div>
+    </div>
+    <div class="top-right">
+      <span class="pill" id="node-pill">Node —</span>
+      <button class="btn ghost" id="btn-exit">退出启动器</button>
+    </div>
+  </header>
+
+  <section class="card cloud">
+    <div class="card-head">
+      <h2>世界连接</h2>
+      <span class="badge pending" id="cloud-badge">检测中</span>
+    </div>
+    <div class="cloud-row">
+      <label for="base">服务地址</label>
+      <input id="base" type="text" spellcheck="false" autocomplete="off" placeholder="http://127.0.0.1:8090" />
+      <button class="btn primary" id="btn-save">保存并探测</button>
+      <button class="btn ghost" id="btn-probe">重新探测</button>
+    </div>
+    <div class="open-row">
+      <label for="openmode">打开方式</label>
+      <select id="openmode">
+        <option value="tab">普通标签页（系统默认浏览器 · 推荐）</option>
+        <option value="app">独立无边框窗口（给 OBS 采集）</option>
+        <option value="none">不自动打开，只打印地址</option>
+      </select>
+      <span class="open-hint" id="openmode-hint">选择后立即保存；下次启动生效。</span>
+    </div>
+    <div class="metrics" id="metrics"></div>
+    <p class="hint" id="cloud-hint">正在读取启动器状态…</p>
+  </section>
+
+  <section class="modes">
+    <div class="section-title">
+      <h2>启动一个模式</h2>
+      <span>点击即刻拉起，不需要命令行</span>
+    </div>
+    <div class="grid">
+
+      <article class="mode" data-mode="observe">
+        <div class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M2.5 8.5h19M8 21h8M12 18v3"/></svg>
+        </div>
+        <div class="mode-body">
+          <div class="mode-title"><h3>轻量观测窗</h3><span class="tag">推荐</span></div>
+          <p>零依赖，Edge / Chrome 应用模式打开无边框只读窗口</p>
+        </div>
+        <button class="btn go">启动</button>
+      </article>
+
+      <article class="mode" data-mode="electron">
+        <div class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3.5" width="19" height="17" rx="2"/><path d="M2.5 8h19M6 5.8h.01M9 5.8h.01"/><path d="M7 12h4v5H7zM14 12h3M14 15h3"/></svg>
+        </div>
+        <div class="mode-body">
+          <h3>Electron 控制台</h3>
+          <p>控制台 + 观测窗双窗口，可置顶给 OBS 采集</p>
+        </div>
+        <button class="btn go">启动</button>
+      </article>
+
+      <article class="mode" data-mode="brain">
+        <div class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3a3 3 0 0 0-3 3 3 3 0 0 0-1 5.8V15a3 3 0 0 0 3 3h.5V3H9Z"/><path d="M15 3a3 3 0 0 1 3 3 3 3 0 0 1 1 5.8V15a3 3 0 0 1-3 3h-.5V3H15Z"/><path d="M9.5 9h5M9.5 13h5"/></svg>
+        </div>
+        <div class="mode-body">
+          <h3>本地大脑</h3>
+          <p>用本机 Ollama 模型驱动世界里的村民，常驻运行</p>
+        </div>
+        <button class="btn go">启动</button>
+      </article>
+
+      <article class="mode" data-mode="local">
+        <div class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5Z"/><path d="m3 12 9 4.5 9-4.5M3 16.5 12 21l9-4.5"/></svg>
+        </div>
+        <div class="mode-body">
+          <div class="mode-title"><h3>本地世界</h3><span class="tag alt">离线兜底</span></div>
+          <p>服务不可达时，在本机跑一个 sim 世界并打开观测窗</p>
+        </div>
+        <button class="btn go">启动</button>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="card brain">
+    <div class="card-head">
+      <h2>本地大脑 · 配置与运行</h2>
+      <div class="head-actions">
+        <span class="badge pending" id="brain-badge">检测中</span>
+        <button class="btn small" id="btn-brain-refresh">刷新状态</button>
+        <button class="btn small" id="btn-brain-stop">停止进程</button>
+      </div>
+    </div>
+    <p class="hint" id="brain-note">
+      向导不会替你填写任何内容、不会自动生成配置文件、也不会在你没点按钮时注册或启动。
+      下面每一项都由你输入、你保存；左侧体检表会实时告诉你「还差什么」以及「去哪里拿」。
+    </p>
+
+    <div class="brain-cols">
+      <div class="brain-col">
+        <div class="sub-head"><h3>配置体检</h3><span class="summary" id="brain-missing">—</span></div>
+        <div class="check-list brain-checks" id="brain-checks"></div>
+        <div class="sub-head"><h3>本地大脑运行日志</h3><button class="btn small" id="btn-brain-log">刷新</button></div>
+        <pre class="logs brain-log" id="brain-log">读取中…</pre>
+      </div>
+
+      <div class="brain-col">
+        <div class="sub-head"><h3>首次配置 · 四步</h3><span class="tag alt">新用户从这里开始</span></div>
+
+        <div class="step">
+          <div class="step-head"><span class="num">1</span><b>连哪个世界</b></div>
+          <p>留空就跟随上方「世界连接」的地址。服务不可达时，先启动「本地世界」，再把地址填成
+            <code>http://127.0.0.1:8090</code>。</p>
+          <input id="f-cloud" type="text" spellcheck="false" placeholder="留空 = 跟随上方地址；或填 http://127.0.0.1:8090" />
+          <div class="step-actions">
+            <button class="btn small" id="btn-step1-save">保存地址</button>
+            <button class="btn small" id="btn-step1-check">检测世界</button>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head"><span class="num">2</span><b>领一只自己的村民</b></div>
+          <p>需要邀请码。在世界服务器的 <code>sim/</code> 目录执行
+            <code>node tools/invite.mjs new "名字" 50 720</code>，把生成的码粘进来。
+            <button class="link" id="btn-copy-invite">复制命令</button></p>
+          <div class="identity" id="brain-identity">身份：读取中…</div>
+          <input id="f-invite" type="text" spellcheck="false" placeholder="粘贴邀请码，例如 DFY-XXXXXXXX" />
+          <div class="step-actions">
+            <button class="btn small" id="btn-step2-save">加入邀请码池</button>
+            <button class="btn small primary" id="btn-step2-register">领取村民</button>
+          </div>
+          <p class="step-tip">「领取村民」会真正向世界注册并写入本机的 <code>.local-agent.json</code>，只有你点它才会发生。</p>
+        </div>
+
+        <div class="step">
+          <div class="step-head"><span class="num">3</span><b>接上模型</b></div>
+          <p>Ollama：先安装并启动，再 <code>ollama pull &lt;模型名&gt;</code>。或者选 OpenAI 兼容接口，填地址和 Key。</p>
+          <select id="f-provider">
+            <option value="">— 选择模型来源 —</option>
+            <option value="ollama">Ollama（本机运行，默认）</option>
+            <option value="openai">OpenAI 兼容接口（需 API Key）</option>
+          </select>
+          <input id="f-ollama-url" type="text" spellcheck="false" placeholder="Ollama 地址，例如 http://127.0.0.1:11434" />
+          <input id="f-openai-base" type="text" spellcheck="false" style="display:none" placeholder="接口地址，例如 https://api.deepseek.com/v1" />
+          <input id="f-api-key" type="password" autocomplete="off" style="display:none" placeholder="API Key（只存本机，不回显）" />
+          <input id="f-model" type="text" spellcheck="false" placeholder="模型名，例如 kaelri/qwen3.5-mt:2b" />
+          <div class="sources" id="brain-sources">来源：读取中…</div>
+          <div class="step-actions">
+            <button class="btn small primary" id="btn-step3-save">保存设置</button>
+            <button class="btn small" id="btn-step3-check">检测模型</button>
+          </div>
+          <p class="step-tip">所有输入框都是空的，示例只是格式提示；留空的字段表示「沿用程序内置默认」。</p>
+        </div>
+
+        <div class="step">
+          <div class="step-head"><span class="num">4</span><b>确认并启动</b></div>
+          <p id="brain-ready-text">先跑一次「检测全部」，确认缺口后再启动。</p>
+          <div class="step-actions">
+            <button class="btn small" id="btn-brain-probe">检测全部</button>
+            <button class="btn small primary" id="btn-brain-start">启动本地大脑</button>
+          </div>
+          <p class="step-tip">启动时，你保存的设置会作为环境变量传给 <code>local-brain.mjs</code>；不再需要手动设系统环境变量。</p>
+        </div>
+
+        <pre class="result" id="brain-result" hidden></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="lower">
+    <div class="card">
+      <div class="card-head">
+        <h2>自检</h2>
+        <div class="head-actions">
+          <span class="summary" id="check-summary">—</span>
+          <button class="btn small" id="btn-check">重新检查</button>
+          <button class="btn small" id="btn-repair">修复入口脚本</button>
+        </div>
+      </div>
+      <div class="check-list" id="check-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <h2>最近日志</h2>
+        <button class="btn small" id="btn-logs">刷新</button>
+      </div>
+      <pre class="logs" id="logs">读取中…</pre>
+    </div>
+  </section>
+
+  <footer>
+    <span>服务仅监听 127.0.0.1 · 页面与启动器同源 · 关闭窗口后服务自动退出</span>
+    <span id="footer-path">—</span>
+  </footer>
+</div>
+
+<div class="closed-mask" id="closed" hidden>
+  <div class="closed-box">
+    <h2>启动器已退出</h2>
+    <p>已启动的观测窗与本地大脑不受影响。可以直接关闭这个标签页 / 窗口。</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

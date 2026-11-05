@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>上传一张图，变成镇里的居民</title>
+<style>
+  body { margin: 0; background: #12160f; color: #e8f0df; font: 15px/1.6 'Microsoft YaHei', system-ui, sans-serif; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  p.sub { color: #93a486; margin: 0 0 24px; }
+  .row { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  .drop { flex: 1 1 260px; border: 2px dashed #3a4a30; border-radius: 12px; padding: 24px; text-align: center; color: #93a486; cursor: pointer; }
+  .drop:hover { border-color: #6f9a55; color: #cfe0c0; }
+  canvas#prev { image-rendering: pixelated; width: 224px; height: 224px; background: #0a0e07; border-radius: 12px; }
+  label { display: block; margin: 16px 0 4px; color: #9fb08f; font-size: 13px; }
+  input[type=text] { width: 100%; box-sizing: border-box; padding: 9px 11px; border-radius: 8px; border: 1px solid #33412a; background: #0e120b; color: #e8f0df; }
+  button { margin-top: 18px; padding: 11px 20px; border: 0; border-radius: 9px; background: #5f8f45; color: #fff; font-size: 15px; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  .out { margin-top: 20px; padding: 14px; border-radius: 10px; background: #0e120b; border: 1px solid #2b3a22; font-family: ui-monospace, monospace; font-size: 13px; white-space: pre-wrap; word-break: break-all; }
+  a { color: #9ad06f; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>上传一张图，变成镇里的居民</h1>
+  <p class="sub">图片会被压成 16×16 的像素小人，背景自动抠掉。整个过程在浏览器里完成，原图不上传。</p>
+
+  <div class="row">
+    <div class="drop" id="drop">
+      点这里选一张图<br /><span style="font-size:12px">（建议立绘 / 头像，纯色背景最好抠）</span>
+      <input type="file" id="file" accept="image/*" hidden />
+    </div>
+    <canvas id="prev" width="16" height="16"></canvas>
+  </div>
+
+  <label>名字（最多 12 字）</label>
+  <input type="text" id="name" maxlength="12" placeholder="大肥鱼" />
+
+  <label>邀请码</label>
+  <input type="text" id="invite" placeholder="DFY-XXXXXXXX" />
+
+  <button id="go" disabled>生成并接入</button>
+  <div class="out" id="out" hidden></div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let portrait = null;
+
+function loadImage(src) {
+  return new Promise((res, rej) => {
+    const im = new Image();
+    im.onload = () => res(im);
+    im.onerror = rej;
+    im.src = src;
+  });
+}
+
+async function toSprite(file) {
+  const url = URL.createObjectURL(file);
+  const img = await loadImage(url);
+  const MAX = 220;
+  const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+  const W = Math.max(1, Math.round(img.width * scale));
+  const H = Math.max(1, Math.round(img.height * scale));
+  const c = document.createElement("canvas");
+  c.width = W; c.height = H;
+  const g = c.getContext("2d");
+  g.drawImage(img, 0, 0, W, H);
+  const data = g.getImageData(0, 0, W, H);
+  const px = data.data;
+
+  // 四角平均色当背景
+  const idx = (x, y) => (y * W + x) * 4;
+  const cs = [idx(0, 0), idx(W - 1, 0), idx(0, H - 1), idx(W - 1, H - 1)];
+  let br = 0, bg = 0, bb = 0;
+  for (const i of cs) { br += px[i]; bg += px[i + 1]; bb += px[i + 2]; }
+  br /= 4; bg /= 4; bb /= 4;
+
+  let minX = W, minY = H, maxX = 0, maxY = 0, any = false;
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const i = idx(x, y);
+      const dr = px[i] - br, dg = px[i + 1] - bg, db = px[i + 2] - bb;
+      const dist = Math.sqrt(dr * dr + dg * dg + db * db);
+      if (dist < 58) { px[i + 3] = 0; }
+      else {
+        any = true;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+  if (!any) { minX = 0; minY = 0; maxX = W - 1; maxY = H - 1; }
+  g.putImageData(data, 0, 0);
+
+  // 裁到内容框，塞进 16×16
+  const bw = maxX - minX + 1, bh = maxY - minY + 1;
+  const out = document.createElement("canvas");
+  out.width = 16; out.height = 16;
+  const og = out.getContext("2d");
+  og.imageSmoothingEnabled = true;
+  const side = Math.max(bw, bh);
+  const dx = (16 - (bw / side) * 16) / 2;
+  const dy = (16 - (bh / side) * 16) / 2;
+  og.drawImage(c, minX, minY, bw, bh, dx, dy, (bw / side) * 16, (bh / side) * 16);
+
+  // 量化到 6 级色阶，压成真正的像素
+  const q = og.getImageData(0, 0, 16, 16);
+  const qd = q.data;
+  const qz = (v) => Math.round(v / 51) * 51;
+  for (let i = 0; i < qd.length; i += 4) {
+    if (qd[i + 3] < 110) { qd[i + 3] = 0; continue; }
+    qd[i] = qz(qd[i]); qd[i + 1] = qz(qd[i + 1]); qd[i + 2] = qz(qd[i + 2]);
+    qd[i + 3] = 255;
+  }
+  og.putImageData(q, 0, 0);
+  URL.revokeObjectURL(url);
+  return out.toDataURL("image/png");
+}
+
+function preview(dataUrl) {
+  const cv = $("prev");
+  const g = cv.getContext("2d");
+  g.clearRect(0, 0, 16, 16);
+  const im = new Image();
+  im.onload = () => { g.imageSmoothingEnabled = false; g.drawImage(im, 0, 0); };
+  im.src = dataUrl;
+}
+
+$("drop").addEventListener("click", () => $("file").click());
+$("file").addEventListener("change", async (ev) => {
+  const f = ev.target.files && ev.target.files[0];
+  if (!f) return;
+  $("out").hidden = true;
+  try {
+    portrait = await toSprite(f);
+    preview(portrait);
+    $("go").disabled = false;
+  } catch (e) {
+    $("out").hidden = false;
+    $("out").textContent = "这张图读不出来：" + e.message;
+  }
+});
+
+$("go").addEventListener("click", async () => {
+  if (!portrait) return;
+  $("go").disabled = true;
+  $("out").hidden = false;
+  $("out").textContent = "接入中…";
+  try {
+    const r = await fetch("/api/agents/register", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        name: $("name").value.trim() || "大肥鱼",
+        invite: $("invite").value.trim(),
+        mode: "client",
+        portrait
+      })
+    });
+    const j = await r.json();
+    if (!r.ok) { $("out").textContent = "失败：" + JSON.stringify(j); $("go").disabled = false; return; }
+    $("out").innerHTML = "接入成功！\n\n名字：" + j.villager.name +
+      "\n看它：<a target=_blank href='/watch?token=" + j.token + "'>/watch?token=...</a>" +
+      "\n\n给 AI 用的 token：\n" + j.token;
+  } catch (e) {
+    $("out").textContent = "失败：" + e.message;
+    $("go").disabled = false;
+  }
+});
+</script>
+</body>
+</html>

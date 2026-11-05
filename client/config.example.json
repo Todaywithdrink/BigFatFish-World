@@ -1,0 +1,11 @@
+{
+  "baseUrl": "http://127.0.0.1:8090",
+  "alwaysOnTop": false,
+  "observerSize": {
+    "width": 1440,
+    "height": 900
+  },
+  "localWorldDir": "",
+  "browser": "",
+  "openMode": "tab"
+}

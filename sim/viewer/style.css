@@ -1,0 +1,132 @@
+:root {
+  color-scheme: dark;
+  --glass: rgba(18, 24, 16, .72);
+  --line: rgba(255, 255, 255, .09);
+  --text: #e9f1de;
+  --muted: #9db08b;
+  --accent: #b7e07a;
+  --warn: #f0b45a;
+  --bad: #ef7d6a;
+  --talk: #9fd2ff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0f08; }
+body { font: 13px/1.5 "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; color: var(--text); }
+
+canvas#world { display: block; width: 100vw; height: 100vh; cursor: grab; }
+canvas#world.dragging { cursor: grabbing; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border-radius: 999px;
+  background: var(--glass); border: 1px solid var(--line);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-size: 12.5px; letter-spacing: .02em; color: var(--text);
+}
+.chip.ghost { color: var(--muted); }
+.chip .dot { width: 8px; height: 8px; border-radius: 50%; background: #ffd479; box-shadow: 0 0 10px #ffd479; }
+.chip .dot.night { background: #8fb0ff; box-shadow: 0 0 10px #8fb0ff; }
+.chip .dot.dusk { background: #ff9f6a; box-shadow: 0 0 10px #ff9f6a; }
+.sep { width: 1px; height: 10px; background: var(--line); }
+
+#topbar {
+  position: fixed; top: 14px; left: 16px; right: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  pointer-events: none; z-index: 5;
+}
+
+#feed {
+  position: fixed; left: 16px; top: 62px; width: 320px; max-height: 46vh;
+  display: flex; flex-direction: column; gap: 6px; overflow: hidden;
+  pointer-events: none; z-index: 4;
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+}
+.feed-item {
+  display: flex; gap: 8px; align-items: flex-start;
+  padding: 7px 10px; border-radius: 10px;
+  background: rgba(14, 19, 12, .62); border: 1px solid rgba(255, 255, 255, .05);
+  backdrop-filter: blur(6px); font-size: 12px; color: #cfdcc2;
+  animation: slide .25s ease-out;
+}
+.feed-item .who { color: var(--accent); flex: none; }
+.feed-item .txt { color: #dfe8d4; word-break: break-word; }
+.feed-item.talk { border-left: 2px solid var(--talk); }
+.feed-item.danger { border-left: 2px solid var(--bad); }
+.feed-item.good { border-left: 2px solid var(--accent); }
+.feed-item .t { margin-left: auto; color: #6f8062; font-size: 10.5px; flex: none; }
+@keyframes slide { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+
+#inspector {
+  position: fixed; right: 16px; top: 62px; width: 250px;
+  padding: 14px 16px; border-radius: 16px;
+  background: var(--glass); border: 1px solid var(--line);
+  backdrop-filter: blur(12px); z-index: 5;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+#inspector.hidden { display: none; }
+.insp-head { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+#insp-avatar {
+  width: 38px; height: 38px; border-radius: 12px; flex: none;
+  background: #6a8f4a; position: relative; overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+}
+#insp-avatar::after {
+  content: ""; position: absolute; inset: 30% 22%;
+  border-radius: 50% 50% 45% 45%; background: rgba(0,0,0,.35);
+}
+#insp-name { font-size: 15px; font-weight: 700; color: #fff; }
+#insp-role { font-size: 11.5px; color: var(--muted); }
+.bar { height: 5px; border-radius: 3px; background: #26301c; overflow: hidden; margin: 8px 0 10px; }
+.bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #7fd06a, #c7e26a); transition: width .2s; }
+.row { display: flex; justify-content: space-between; font-size: 12px; padding: 2px 0; color: var(--muted); }
+.row b { color: #d8e5ca; font-weight: 500; }
+.skills { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+.skill { display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--muted); }
+.skill .track { flex: 1; height: 4px; border-radius: 2px; background: #26301c; overflow: hidden; }
+.skill .track i { display: block; height: 100%; background: #8fc46a; }
+.skill .lv { width: 16px; text-align: right; color: #d8e5ca; }
+
+#minimap-wrap {
+  position: fixed; left: 16px; bottom: 16px; padding: 8px;
+  border-radius: 14px; background: rgba(12, 17, 10, .78);
+  border: 1px solid var(--line); backdrop-filter: blur(10px); z-index: 5;
+}
+#minimap { display: block; border-radius: 8px; }
+.mm-label { font-size: 10.5px; color: #6f8062; text-align: center; margin-top: 4px; }
+#minimap-wrap.mm-hidden { display: none; }
+
+#geo-hud {
+  position: fixed; left: 16px; bottom: 16px; z-index: 5; pointer-events: none;
+  font: 11px/1.4 'Microsoft YaHei',system-ui,sans-serif; color: #cddcc0;
+  background: rgba(12, 17, 10, .74); border: 1px solid var(--line);
+  border-radius: 999px; padding: 6px 13px; backdrop-filter: blur(8px);
+  max-width: 62vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+body.mini-on #geo-hud { bottom: 192px; }
+
+#mode-tip {
+  display: none; position: fixed; left: 50%; top: 14px; transform: translateX(-50%);
+  font: 12px/1.4 'Microsoft YaHei',system-ui,sans-serif; color: #f0f5e4;
+  background: rgba(16, 24, 14, .86); border: 1px solid rgba(255,236,150,.35);
+  border-radius: 999px; padding: 7px 18px; z-index: 8; pointer-events: none;
+  box-shadow: 0 4px 18px rgba(0,0,0,.35);
+}
+body.overview-mode #mode-tip { display: block; }
+
+#controls {
+  position: fixed; right: 16px; bottom: 16px; display: flex; gap: 6px; z-index: 6;
+  flex-wrap: wrap; justify-content: flex-end; max-width: 72vw;
+}
+#controls button {
+  font: inherit; font-size: 12px; color: var(--muted);
+  background: rgba(18, 24, 16, .82); border: 1px solid var(--line);
+  border-radius: 10px; padding: 7px 11px; cursor: pointer;
+  transition: all .15s;
+}
+#controls button:hover { color: var(--text); border-color: rgba(255,255,255,.2); }
+#controls button.on { color: #12170d; background: var(--accent); border-color: transparent; }
+
+#hint {
+  position: fixed; right: 16px; bottom: 58px; font-size: 11px;
+  color: rgba(233, 241, 222, .34); z-index: 4; pointer-events: none;
+}

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>美术层自检 · art.js</title>
+<style>
+  html, body { margin: 0; background: #10130d; color: #cfe0c0; font: 13px/1.5 system-ui, sans-serif; }
+  canvas { display: block; image-rendering: pixelated; margin: 16px auto; border: 1px solid #2a3324; }
+  p { text-align: center; margin: 8px 0 24px; opacity: .7; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<p>原生低分辨率：世界画布 384×224（每格 16px，1:1），整数 3 倍放大到屏幕</p>
+<script src="/viewer/tiles.js"></script>
+<script src="/viewer/art.js"></script>
+<script>
+  // ---- 一张手写的小地图：草地、十字路、池塘、一间房子、树、围栏、石头、路灯 ----
+  var W = 24, H = 14;
+  var legend = {
+    ".": { kind: "grass" }, ",": { kind: "path" }, "W": { kind: "water" },
+    "#": { kind: "wall" }, "f": { kind: "floor" }, "D": { kind: "door" },
+    "T": { kind: "tree" }, "R": { kind: "rock" }, "=": { kind: "fence" }, "L": { kind: "lamp" }
+  };
+  var rows = [];
+  for (var y = 0; y < H; y++) rows.push(new Array(W).fill("."));
+  function put(x, y, ch) { rows[y][x] = ch; }
+  // 十字路
+  for (var i = 3; i < 21; i++) put(i, 9, ",");
+  for (var j = 4; j < 14; j++) put(11, j, ",");
+  // 池塘
+  for (var wy = 10; wy < 13; wy++) for (var wx = 3; wx < 8; wx++) put(wx, wy, "W");
+  // 房子（剖开：墙 + 地板 + 门）
+  for (var hx = 14; hx <= 20; hx++) { put(hx, 4, hx === 14 || hx === 20 ? "#" : "f"); put(hx, 5, hx === 14 || hx === 20 ? "#" : "f"); }
+  for (var dx = 14; dx <= 20; dx++) put(dx, 6, "#");
+  put(17, 6, "D");
+  // 树、石头、围栏、路灯
+  [[2,1],[4,2],[6,1],[8,3],[21,1],[22,4],[3,6],[6,6],[21,8],[2,8]].forEach(function (p) { put(p[0], p[1], "T"); });
+  [[9,2],[19,2],[5,12]].forEach(function (p) { put(p[0], p[1], "R"); });
+  for (var fx = 14; fx <= 20; fx++) put(fx, 8, "=");
+  [[12,7],[12,11],[19,7]].forEach(function (p) { put(p[0], p[1], "L"); });
+
+  var map = {
+    width: W, height: H,
+    rows: rows.map(function (r) { return r.join(""); }),
+    heights: rows.map(function () { return "0".repeat(W); }),
+    legend: legend
+  };
+  var patchMap = new Map();
+
+  var TILE = 16;                       // 原生 1:1
+  var buf = document.createElement("canvas");
+  buf.width = W * TILE; buf.height = H * TILE;
+  var bctx = buf.getContext("2d");
+  var out = document.getElementById("c");
+  var SCALE = 3;
+  out.width = buf.width * SCALE; out.height = buf.height * SCALE;
+  var octx = out.getContext("2d");
+  octx.imageSmoothingEnabled = false;
+
+  function draw() {
+    bctx.imageSmoothingEnabled = false;
+    bctx.fillStyle = "#0a0e07";
+    bctx.fillRect(0, 0, buf.width, buf.height);
+
+    // 1) 地面层
+    var props = [];
+    for (var ty = 0; ty < H; ty++) {
+      for (var tx = 0; tx < W; tx++) {
+        var k = ART.kindAt(map, patchMap, tx, ty);
+        if (ART.needsProp(k)) {
+          ART.ground(bctx, map, patchMap, tx, ty, tx * TILE, ty * TILE, TILE, 0, true);  // 只铺草皮
+          props.push({ tx: tx, ty: ty, kind: k, y: ty + 0.9 });
+        } else {
+          ART.ground(bctx, map, patchMap, tx, ty, tx * TILE, ty * TILE, TILE, 0);
+        }
+      }
+    }
+
+    // 2) 门
+    if (!ART.door(bctx, 17 * TILE, 6 * TILE, TILE, false)) { /* 没图就算了 */ }
+
+    // 3) 物件 + 角色，按 y 排序（这就是"走到树后面"的关键）
+    var list = props.slice();
+    list.push({ ent: true, x: 11.5, y: 8.5 });   // 假人：站在路口
+    list.sort(function (a, b) { return (a.y || 0) - (b.y || 0); });
+    list.forEach(function (it) {
+      if (it.ent) {
+        var px = it.x * TILE, py = it.y * TILE;
+        bctx.fillStyle = "rgba(0,0,0,.25)";
+        bctx.beginPath(); bctx.ellipse(px, py + 13, 5, 2, 0, 0, Math.PI * 2); bctx.fill();
+        bctx.fillStyle = "#8fe3f0";
+        bctx.beginPath(); bctx.ellipse(px, py + 6, 5, 7, 0, 0, Math.PI * 2); bctx.fill();
+        bctx.fillStyle = "#2b3b44";
+        bctx.fillRect(px + 2, py + 4, 1, 1);
+      } else {
+        ART.prop(bctx, map, patchMap, it.tx, it.ty, it.kind, it.tx * TILE, it.ty * TILE, TILE);
+      }
+    });
+
+    octx.drawImage(buf, 0, 0, out.width, out.height);
+  }
+
+  ART.load(function (ok) {
+    if (!ok) { document.body.insertAdjacentHTML("beforeend", "<p>图集没加载成功</p>"); return; }
+    draw();
+  });
+</script>
+</body>
+</html>

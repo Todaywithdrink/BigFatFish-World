@@ -1,0 +1,103 @@
+# ============================================================
+# 大肥鱼世界 · 发布忽略规则
+# 原则：任何「运行时生成」「含凭据」「第三方整包」「本机路径」
+#       都不进仓库。clone 下来应当能直接跑，且不含任何人的密钥。
+# ============================================================
+
+# ---- 1. 运行时存档 / 凭据（最高优先级）----
+sim/data/*
+!sim/data/village.json
+bridge/data/
+bridge/config.json
+bridge/out.log
+bridge/err.log
+
+**/.env
+**/.env.*
+!**/.env.example
+**/*.key
+**/*token*.txt
+**/*secret*.txt
+**/agents.json
+**/invites.json
+**/invites.txt
+**/minds.json
+**/world-state.json
+**/world-map.json
+**/agent-memory.json
+**/.local-agent.json
+**/brain-settings.json
+**/admin.key
+
+# ---- 2. 客户端本机配置与依赖 ----
+client/config.json
+client/node_modules/
+client/logs/
+client/*.log
+client/preview.png
+
+# ---- 3. 第三方运行时 / 大体积二进制（不随仓库分发）----
+# runtime/ 是星露谷游戏本体（约 665 MB，有版权，衍生素材亦不可入仓）
+runtime/
+tools/smapi/
+tools/cloudflared.exe
+tools/cf.log
+mods/AiVillagers/bin/
+mods/AiVillagers/obj/
+deploy/
+patchwork/
+test-run/
+*.tar.gz
+*.pak
+*.db
+*.sqlite
+*.sqlite3
+*.zip
+
+# ---- 4. 版权 / 许可风险：不得再分发 ----
+# docs/dst/*.lua 是《饥荒：联机版》(Klei) 官方游戏脚本摘录，仅作本地设计参考
+docs/dst/
+# OGA 鸽子/虾等素材为 CC-BY 4.0、未接线且未附署名，暂不随仓库分发
+sim/assets/_src/oga-birds/
+sim/assets/_src/_path_preview.png
+
+# ---- 5. 调试产物 ----
+# sim/ 根目录是历次美术调参截图；viewer/ 与 maps/ 下的 PNG 是运行必需素材，不能忽略
+sim/*.png
+*.log
+*.err
+*.tmp
+*.bak
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+.workbuddy/
+
+# ---- 6. 构建 / 编辑器 ----
+node_modules/
+dist/
+build/
+*.usersim/
+
+# ---- 7. 本地私有运行脚本 / 内部备忘录（绝不入库）----
+# 连接私有实例、带 Key 或邀请码的本地脚本，用 .local.* 后缀即可自动排除
+*.local.mjs
+*.local.js
+*.local.cjs
+*.local.json
+*.local.bat
+*.local.md
+# 发布检查清单是发起人内部备忘录，不属于对外展示内容（文件留在本地，不进仓库）
+docs/PUBLISHING.md
+
+# ---- 8. 一次性历史补丁脚本（本地工具，写死本机路径，不对外发布）----
+# selftest / determinism / invite / replay 等可复跑验收工具均保留
+sim/tools/fix*.cjs
+sim/tools/patch*.cjs
+sim/tools/add*.cjs
+sim/tools/defaultow.cjs
+sim/tools/wiretiled*.cjs
+sim/tools/build-demo.mjs
+sim/tools/dsh-agent-test.mjs
+sim/tools/dsh-post.mjs

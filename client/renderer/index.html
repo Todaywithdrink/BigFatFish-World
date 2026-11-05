@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;" />
+  <title>大肥鱼世界 · PC 观测端</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="bar">
+    <div class="brand">
+      <span class="fish"></span>
+      <div>
+        <h1>大肥鱼世界</h1>
+        <p>PC 观测端 · 连接世界服务</p>
+      </div>
+    </div>
+    <div class="status" id="status">
+      <span class="dot" id="dot"></span>
+      <span id="statusText">未连接</span>
+    </div>
+  </header>
+
+  <section class="panel">
+    <label class="field">
+      <span>服务地址</span>
+      <input id="baseUrl" type="text" spellcheck="false" placeholder="http://127.0.0.1:8090" />
+    </label>
+    <div class="row">
+      <button id="btnConnect" class="primary">检测并打开观测窗</button>
+      <button id="btnProbe" class="ghost">仅检测</button>
+    </div>
+    <p class="hint" id="hint">填 IP 或完整地址均可，会自动补 http://</p>
+  </section>
+
+  <section class="grid" id="metrics">
+    <div class="card">
+      <span class="k">延迟</span>
+      <strong class="v" id="mLatency">--</strong>
+      <span class="u">ms</span>
+    </div>
+    <div class="card">
+      <span class="k">世界时钟</span>
+      <strong class="v" id="mTick">--</strong>
+      <span class="u">tick</span>
+    </div>
+    <div class="card">
+      <span class="k">实体总数</span>
+      <strong class="v" id="mEntities">--</strong>
+      <span class="u">个</span>
+    </div>
+    <div class="card">
+      <span class="k">在线村民</span>
+      <strong class="v" id="mVillagers">--</strong>
+      <span class="u">人</span>
+    </div>
+    <div class="card">
+      <span class="k">空闲席位</span>
+      <strong class="v" id="mFree">--</strong>
+      <span class="u">位</span>
+    </div>
+    <div class="card">
+      <span class="k">运行时长</span>
+      <strong class="v" id="mUptime">--</strong>
+      <span class="u"></span>
+    </div>
+  </section>
+
+  <section class="panel observer">
+    <div class="observer-head">
+      <span class="label">观测窗</span>
+      <span class="pill" id="observerState">未打开</span>
+    </div>
+    <div class="row">
+      <button id="btnPin" class="ghost" disabled>置顶</button>
+      <button id="btnFull" class="ghost" disabled>全屏</button>
+      <button id="btnClose" class="ghost danger" disabled>关闭观测窗</button>
+    </div>
+    <p class="hint">置顶后可直接被 OBS 以「窗口采集」抓取；全屏快捷键 F11。</p>
+  </section>
+
+  <section class="panel log">
+    <div class="observer-head">
+      <span class="label">连接日志</span>
+      <button id="btnClear" class="link">清空</button>
+    </div>
+    <ul id="logList"></ul>
+  </section>
+
+  <footer class="foot">
+    <span>自动心跳 3s</span>
+    <span id="lastBeat">--</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

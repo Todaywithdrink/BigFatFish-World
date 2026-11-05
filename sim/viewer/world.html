@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>大肥鱼世界 · 湖北省（真实比例）</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0a0e07; overflow: hidden; }
+  canvas { display: block; image-rendering: pixelated; }
+  #hud { position: fixed; left: 12px; top: 12px; color: #dbe8cc; font: 13px/1.5 'Microsoft YaHei', system-ui, sans-serif; background: rgba(10,14,7,.66); padding: 6px 10px; border-radius: 8px; pointer-events: none; }
+  #tip { position: fixed; right: 12px; bottom: 12px; color: #8ea57d; font: 12px system-ui; pointer-events: none; }
+  #mini { position: fixed; right: 12px; top: 12px; width: 200px; height: 128px; border: 1px solid rgba(219,232,204,.28); border-radius: 6px; image-rendering: pixelated; background: #0a0e07; }
+</style>
+</head>
+<body>
+<div id="hud">载入中…</div>
+<canvas id="mini" width="200" height="128"></canvas>
+<div id="tip">滚轮缩放 · 拖动平移</div>
+<script src="/viewer/pixi.min.js"></script>
+<script src="/viewer/world-view.js"></script>
+</body>
+</html>

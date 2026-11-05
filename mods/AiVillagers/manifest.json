@@ -1,0 +1,9 @@
+{
+  "Name": "AI Villagers",
+  "Author": "local",
+  "Version": "0.1.0",
+  "Description": "把村民的对话接给本地 AI 桥接服务（外部大脑），村民说话时实时生成台词。",
+  "UniqueID": "local.aivillagers",
+  "EntryDll": "AiVillagers.dll",
+  "MinimumApiVersion": "4.0.0"
+}

@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>湖北省 · 星露谷式高度分层规格</title>
+<style>
+  :root {
+    --bg:#12150f; --panel:#1a1f16; --panel2:#222a1d; --line:#2f3a28;
+    --fg:#dbe4cf; --dim:#8d9a7f; --accent:#c8a165; --accent2:#7fb069;
+    --soil:#b8865a;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:14px/1.7 "Microsoft YaHei", system-ui, sans-serif; }
+  .wrap { max-width:1180px; margin:0 auto; padding:36px 24px 80px; }
+  h1 { font-size:26px; margin:0 0 6px; letter-spacing:.5px; }
+  h2 { font-size:17px; margin:44px 0 14px; padding-left:10px;
+       border-left:3px solid var(--accent); }
+  h3 { font-size:14px; color:var(--accent); margin:26px 0 10px; font-weight:600; }
+  .sub { color:var(--dim); margin:0 0 28px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .card .k { color:var(--dim); font-size:12px; }
+  .card .v { font-size:20px; font-weight:600; color:var(--accent); margin-top:2px; }
+  .card .u { font-size:12px; color:var(--dim); }
+  table { width:100%; border-collapse:collapse; margin-top:8px; font-size:13px; }
+  th { text-align:left; color:var(--dim); font-weight:500; font-size:12px;
+       border-bottom:1px solid var(--line); padding:8px 10px; }
+  td { padding:7px 10px; border-bottom:1px solid rgba(47,58,40,.55); vertical-align:middle; }
+  tr:hover td { background:rgba(127,176,105,.05); }
+  .num { font-variant-numeric:tabular-nums; }
+  .small { font-size:11px; color:var(--dim); }
+  .id { color:var(--dim); font-size:12px; }
+  .sw { display:inline-block; width:12px; height:12px; border-radius:3px;
+        margin-right:7px; vertical-align:-1px; box-shadow:0 0 0 1px rgba(0,0,0,.45); }
+  code { font-family:ui-monospace,Consolas,monospace; font-size:11px; color:var(--dim); }
+  .bar { display:inline-block; width:120px; height:6px; background:#0d100b;
+         border-radius:3px; overflow:hidden; vertical-align:middle; margin-right:8px; }
+  .bar i { display:block; height:100%; background:linear-gradient(90deg,#5e8c4f,#a8c86a); }
+  .split { display:grid; grid-template-columns:1.15fr .85fr; gap:26px; align-items:start; }
+  .sec { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px; }
+  .sec-row { position:relative; border-radius:1px; }
+  .sec-row span { position:absolute; left:calc(100% + 14px); top:50%;
+                  transform:translateY(-50%); white-space:nowrap; font-size:11px; color:var(--fg); }
+  .note { background:rgba(200,161,101,.08); border-left:3px solid var(--accent);
+          padding:12px 16px; border-radius:0 8px 8px 0; color:#e6ecdc; font-size:13px; }
+  .gal { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px; }
+  figure { margin:0; background:var(--panel); border:1px solid var(--line);
+           border-radius:10px; overflow:hidden; }
+  figure img { display:block; width:100%; image-rendering:pixelated; }
+  figcaption { padding:9px 12px; font-size:12px; display:flex; gap:10px; flex-wrap:wrap; }
+  figcaption span { color:var(--dim); }
+  .poster img { width:100%; display:block; border-radius:10px; border:1px solid var(--line); }
+  ul { padding-left:20px; color:#c3cdb6; }
+  li { margin:5px 0; }
+  b.hl { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>湖北省 · 星露谷式高度分层规格</h1>
+  <p class="sub">2 m / 格 基准 · 一格一崖 · 露土分界 —— 本页由 <code>stardew-spec.mjs</code> 直接生成，与烘焙代码同源</p>
+
+  <h2>1 比例与标尺</h2>
+  <div class="cards">
+    <div class="card"><div class="k">格距</div><div class="v">2 m</div><div class="u">16 px / 格 · 1 px = 0.125 m</div></div>
+    <div class="card"><div class="k">台阶高差</div><div class="v">8 m</div><div class="u">一级台地 = 一段高程带</div></div>
+    <div class="card"><div class="k">台阶抬升</div><div class="v">16 px</div><div class="u">= 1.0 整格</div></div>
+    <div class="card"><div class="k">垂直压缩</div><div class="v">4.0×</div><div class="u">1:1 应为 64 px</div></div>
+    <div class="card"><div class="k">全省格数（L0）</div><div class="v">898 亿</div><div class="u">374,250 × 240,000</div></div>
+    <div class="card"><div class="k">层带数</div><div class="v">16</div><div class="u">T0 水面 + 15 级陆地</div></div>
+  </div>
+
+  <div class="note" style="margin-top:18px">
+    <b class="hl">为什么不是 1:1：</b>8 m 高差按 1:1 应占 64 px。
+    但一个 80 格（160 m）的视口里只有 25–40 m 落差，1:1 会得到 12–20 级台阶，
+    屏幕上全是等高线。压到 16 px 后，同一视口只剩 3–5 级台地，
+    正好是星露谷一个屏幕的层次密度。这个压缩比是<b class="hl">制图约定</b>，写死在规格里，不随地形变。
+  </div>
+
+  <h2>2 层带表（宏观配色 / 全省图例）</h2>
+  <table>
+    <thead><tr><th>层</th><th>名称</th><th>高程区间 (m)</th><th>层厚</th><th>露土色（分界线）</th><th>占陆域面积</th></tr></thead>
+    <tbody><tr>
+    <td class="id">T0</td>
+    <td><span class="sw" style="background:#487aa8"></span>水面</td>
+    <td class="num">&lt;26–26</td>
+    <td class="num">—</td>
+    <td><span class="sw" style="background:#60503c"></span><code>#60503c</code></td>
+    <td>
+      <div class="bar"><i style="width:5.0%"></i></div>
+      <span class="num small">1.24%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T1</td>
+    <td><span class="sw" style="background:#7aa460"></span>河漫滩</td>
+    <td class="num">26–35</td>
+    <td class="num">9 m</td>
+    <td><span class="sw" style="background:#b88858"></span><code>#b88858</code></td>
+    <td>
+      <div class="bar"><i style="width:3.1%"></i></div>
+      <span class="num small">0.77%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T2</td>
+    <td><span class="sw" style="background:#88b066"></span>一级阶地</td>
+    <td class="num">35–45</td>
+    <td class="num">10 m</td>
+    <td><span class="sw" style="background:#b28254"></span><code>#b28254</code></td>
+    <td>
+      <div class="bar"><i style="width:18.2%"></i></div>
+      <span class="num small">4.56%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T3</td>
+    <td><span class="sw" style="background:#82ae62"></span>二级阶地</td>
+    <td class="num">45–58</td>
+    <td class="num">13 m</td>
+    <td><span class="sw" style="background:#aa7a50"></span><code>#aa7a50</code></td>
+    <td>
+      <div class="bar"><i style="width:22.5%"></i></div>
+      <span class="num small">5.62%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T4</td>
+    <td><span class="sw" style="background:#7aa85e"></span>岗地</td>
+    <td class="num">58–75</td>
+    <td class="num">17 m</td>
+    <td><span class="sw" style="background:#a2744c"></span><code>#a2744c</code></td>
+    <td>
+      <div class="bar"><i style="width:15.4%"></i></div>
+      <span class="num small">3.84%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T5</td>
+    <td><span class="sw" style="background:#72a25a"></span>缓丘</td>
+    <td class="num">75–98</td>
+    <td class="num">23 m</td>
+    <td><span class="sw" style="background:#986c48"></span><code>#986c48</code></td>
+    <td>
+      <div class="bar"><i style="width:26.2%"></i></div>
+      <span class="num small">6.56%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T6</td>
+    <td><span class="sw" style="background:#6a9a56"></span>丘陵</td>
+    <td class="num">98–128</td>
+    <td class="num">30 m</td>
+    <td><span class="sw" style="background:#8e6444"></span><code>#8e6444</code></td>
+    <td>
+      <div class="bar"><i style="width:42.9%"></i></div>
+      <span class="num small">10.73%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T7</td>
+    <td><span class="sw" style="background:#629052"></span>高丘</td>
+    <td class="num">128–168</td>
+    <td class="num">40 m</td>
+    <td><span class="sw" style="background:#845c40"></span><code>#845c40</code></td>
+    <td>
+      <div class="bar"><i style="width:53.0%"></i></div>
+      <span class="num small">13.25%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T8</td>
+    <td><span class="sw" style="background:#5a864e"></span>低山</td>
+    <td class="num">168–225</td>
+    <td class="num">57 m</td>
+    <td><span class="sw" style="background:#7a563c"></span><code>#7a563c</code></td>
+    <td>
+      <div class="bar"><i style="width:18.2%"></i></div>
+      <span class="num small">4.55%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T9</td>
+    <td><span class="sw" style="background:#547a4c"></span>中山</td>
+    <td class="num">225–305</td>
+    <td class="num">80 m</td>
+    <td><span class="sw" style="background:#705038"></span><code>#705038</code></td>
+    <td>
+      <div class="bar"><i style="width:20.2%"></i></div>
+      <span class="num small">5.04%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T10</td>
+    <td><span class="sw" style="background:#50724c"></span>中高山</td>
+    <td class="num">305–430</td>
+    <td class="num">125 m</td>
+    <td><span class="sw" style="background:#664a36"></span><code>#664a36</code></td>
+    <td>
+      <div class="bar"><i style="width:29.1%"></i></div>
+      <span class="num small">7.28%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T11</td>
+    <td><span class="sw" style="background:#526c4e"></span>亚高山</td>
+    <td class="num">430–640</td>
+    <td class="num">210 m</td>
+    <td><span class="sw" style="background:#5e4434"></span><code>#5e4434</code></td>
+    <td>
+      <div class="bar"><i style="width:67.4%"></i></div>
+      <span class="num small">16.85%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T12</td>
+    <td><span class="sw" style="background:#5e6e56"></span>高山</td>
+    <td class="num">640–1000</td>
+    <td class="num">360 m</td>
+    <td><span class="sw" style="background:#563e32"></span><code>#563e32</code></td>
+    <td>
+      <div class="bar"><i style="width:37.1%"></i></div>
+      <span class="num small">9.27%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T13</td>
+    <td><span class="sw" style="background:#727864"></span>高山针叶</td>
+    <td class="num">1000–1700</td>
+    <td class="num">700 m</td>
+    <td><span class="sw" style="background:#4e382e"></span><code>#4e382e</code></td>
+    <td>
+      <div class="bar"><i style="width:40.1%"></i></div>
+      <span class="num small">10.02%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T14</td>
+    <td><span class="sw" style="background:#8e907e"></span>草甸·裸岩</td>
+    <td class="num">1700–2400</td>
+    <td class="num">700 m</td>
+    <td><span class="sw" style="background:#463a34"></span><code>#463a34</code></td>
+    <td>
+      <div class="bar"><i style="width:5.8%"></i></div>
+      <span class="num small">1.44%</span>
+    </td>
+  </tr>
+<tr>
+    <td class="id">T15</td>
+    <td><span class="sw" style="background:#e4e9ee"></span>雪线</td>
+    <td class="num">2400+</td>
+    <td class="num">—</td>
+    <td><span class="sw" style="background:#605e5c"></span><code>#605e5c</code></td>
+    <td>
+      <div class="bar"><i style="width:1.2%"></i></div>
+      <span class="num small">0.29%</span>
+    </td>
+  </tr></tbody>
+  </table>
+  <p class="small" style="margin-top:10px">
+    层带只管<b>配色与图例</b>，不直接决定台阶：层厚 7–700 m 不等，一个 160 m 视口跨不过去。
+    真正画出台阶的是下面这套固定步长。
+  </p>
+
+  <h2>3 台阶与崖壁剖面</h2>
+  <div class="split">
+    <div>
+      <table>
+        <thead><tr><th>部位</th><th>像素</th><th>作用</th></tr></thead>
+        <tbody>
+          <tr><td>唇边</td><td class="num">1 px</td><td>草皮断面，提亮 30%，是台地的"边界线"</td></tr>
+          <tr><td>草根</td><td class="num">1 px</td><td>草色与土色 62% 混合，避免草直接切土</td></tr>
+          <tr><td>土体</td><td class="num">12 px</td><td>心土色，每 3 px 压一条暗纹（土层）</td></tr>
+          <tr><td>脚影</td><td class="num">1 px</td><td>土色 × 0.60，崖脚收边</td></tr>
+          <tr><td>投影</td><td class="num">≤14 px</td><td>下方台面渐隐，k 从 0.56 → 0.90</td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-top:12px">
+        只画朝南（+y）的崖面：3/4 俯视看不到东/西侧面；东西向落差用 2 px 土色侧棱带过，
+        否则 45° 台阶上的崖壁会断成一节节方块，整条崖线读成虚线。
+      </p>
+    </div>
+    <div class="sec"><svg viewBox="0 0 470 300" width="100%" style="display:block">
+  <defs>
+    <linearGradient id="proj" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d2418" stop-opacity=".92"/>
+      <stop offset="1" stop-color="#1d2418" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- 上侧台面 -->
+  <rect x="70" y="62" width="144" height="34" fill="#7fb069"/>
+  <rect x="70" y="62" width="144" height="6" fill="#8fbf77"/>
+  <!-- 崖壁 16px -->
+  <rect x="70" y="96" width="144" height="144" fill="#8a6a4a"/>
+  <rect x="70" y="96" width="144" height="9" fill="#f2f2e0"/>
+  <rect x="70" y="105" width="144" height="9" fill="#9b7f56"/>
+  <rect x="70" y="123" width="144" height="2" fill="#74563a"/><rect x="70" y="150" width="144" height="2" fill="#74563a"/><rect x="70" y="177" width="144" height="2" fill="#74563a"/><rect x="70" y="204" width="144" height="2" fill="#74563a"/><rect x="70" y="231" width="144" height="2" fill="#74563a"/>
+  <rect x="70" y="231" width="144" height="9" fill="#4a3524"/>
+  <!-- 下侧台面 + 投影 -->
+  <rect x="70" y="240" width="144" height="60" fill="#6fa05a"/>
+  <rect x="70" y="240" width="144" height="46" fill="url(#proj)"/>
+  <!-- 标注 -->
+  <g stroke="#8d9a7f" stroke-width="1" fill="none">
+    <path d="M220,100.5 H248"/>
+    <path d="M220,114 H248"/>
+    <path d="M220,159 H248"/>
+    <path d="M220,231 H248"/>
+    <path d="M220,294 H248"/>
+  </g>
+  <g fill="#dbe4cf" font-size="12" font-family="Microsoft YaHei">
+    <text x="254" y="104.5">唇边 1px · 草皮断面（提亮 30%）</text>
+    <text x="254" y="118">草根 1px · 草色与土色 62% 混合</text>
+    <text x="254" y="163">土体 12px · 每 3px 一条土层暗纹</text>
+    <text x="254" y="235">脚影 1px · 土色 ×0.60</text>
+    <text x="254" y="298">投影 ≤14px · k 0.56 → 0.90</text>
+  </g>
+  <text x="70" y="50" fill="#c8a165" font-size="12" font-family="Microsoft YaHei">上侧台面</text>
+  <text x="70" y="318" fill="#8d9a7f" font-size="11" font-family="Microsoft YaHei">崖下台面（被投影压暗）</text>
+  <text x="62" y="168" fill="#c8a165" font-size="12" text-anchor="end" font-family="Microsoft YaHei">16 px</text>
+  <text x="62" y="184" fill="#8d9a7f" font-size="11" text-anchor="end" font-family="Microsoft YaHei">=8 m</text>
+</svg></div>
+  </div>
+
+  <h2>4 坡度衔接（台阶密度）</h2>
+  <table>
+    <thead><tr><th>坡度级</th><th>梯度区间 (m/m)</th><th>代表 g</th><th>相邻两级台阶水平间距</th><th>一屏 80 格可见级数</th><th>读数</th></tr></thead>
+    <tbody><tr>
+  <td>台地</td>
+  <td class="num">0.000–0.052</td>
+  <td class="num">0.01</td>
+  <td class="num">— <span class="small">（不换级）</span></td>
+  <td class="num">0</td>
+  <td class="small">3° 以下，一屏之内不换级</td>
+</tr>
+<tr>
+  <td>缓坡</td>
+  <td class="num">0.052–0.213</td>
+  <td class="num">0.11</td>
+  <td class="num">38.0 格<span class="small"> / 608 px</span></td>
+  <td class="num">2.1 级</td>
+  <td class="small">每 19–77 格升一级</td>
+</tr>
+<tr>
+  <td>中坡</td>
+  <td class="num">0.213–0.466</td>
+  <td class="num">0.32</td>
+  <td class="num">12.7 格<span class="small"> / 203 px</span></td>
+  <td class="num">6.3 级</td>
+  <td class="small">每 9–19 格升一级</td>
+</tr>
+<tr>
+  <td>陡坡</td>
+  <td class="num">0.466–0.839</td>
+  <td class="num">0.63</td>
+  <td class="num">6.4 格<span class="small"> / 102 px</span></td>
+  <td class="num">12.5 级</td>
+  <td class="small">每 5–9 格升一级，台阶密集</td>
+</tr>
+<tr>
+  <td>陡崖</td>
+  <td class="num">0.839–∞</td>
+  <td class="num">1.34</td>
+  <td class="num">3.0 格<span class="small"> / 48 px</span></td>
+  <td class="num">26.8 级</td>
+  <td class="small">间距 <5 格，多级并成直壁</td>
+</tr></tbody>
+  </table>
+  <div class="note" style="margin-top:14px">
+    <b class="hl">坡不是"摊薄一级落差"，而是"把多级台阶排密"。</b>
+    单级落差恒为 16 px、恒占 1 格宽。若把 16 px 摊到 3 格（5.3 px/行），行高非整数，一上屏就被抗锯齿糊成渐变；
+    摊成半级（8 px）则会把一堵崖拆成两段虚线。所以坡度只控制<b>相邻两级的间距</b>：
+    <code>run = STEP_M / (g · GRID_M) = 4 / g</code> 格。
+    g=0.10 → 40 格一级（缓）；g=0.40 → 10 格一级（中）；g=0.70 → 5.7 格一级（陡）；g&gt;1 → 间距不足 4 格，多级挤成一堵直壁。
+  </div>
+  <p class="small" style="margin-top:10px">
+    崖线外侧另染 2 格土色（合计 3–5 格宽），这是"斜"的颜色读法；
+    <code>softenR</code> 只让崖线在相邻 0–2 格内错位、去掉刀切边，不改变任何一级的落差。
+  </p>
+
+  <h2>5 LOD 阶梯</h2>
+  <table>
+    <thead><tr><th>级</th><th>格距</th><th>全省格数</th><th>用途</th></tr></thead>
+    <tbody><tr>
+  <td class="id">L0</td><td class="num">2 m</td>
+  <td class="num">374,250 × 240,000</td><td>玩家尺度基准，流式加载，不烘焙</td>
+</tr>
+<tr>
+  <td class="id">L1</td><td class="num">8 m</td>
+  <td class="num"> 93,563 ×  60,000</td><td>区域视图</td>
+</tr>
+<tr>
+  <td class="id">L2</td><td class="num">32 m</td>
+  <td class="num"> 23,391 ×  15,000</td><td>县域</td>
+</tr>
+<tr>
+  <td class="id">L3</td><td class="num">128 m</td>
+  <td class="num">  5,848 ×   3,750</td><td>市域拼图</td>
+</tr>
+<tr>
+  <td class="id">L4</td><td class="num">500 m</td>
+  <td class="num">  1,497 ×     960</td><td>全省一张图（现有 hubei.bin）</td>
+</tr></tbody>
+  </table>
+  <p class="small" style="margin-top:10px">
+    L0 是<b>玩家尺度基准</b>，只流式加载村落周边，不烘焙；L4 才是"一张全省图"。
+  </p>
+
+  <h2>6 全省图（L4 · 500 m/格 · 2 px/格）</h2>
+  <div class="poster"><img src="hubei-stardew.png" alt="湖北省分层地形图"></div>
+  <p class="small" style="margin-top:10px">
+    全省 748.5 × 480 km，2 m/格 是 898 亿格，没有任何机器能一次烤出来，所以这张是 L4 降采样：
+    500 m/格。层带、配色、露土分界规则与 L0 <b>完全同源</b>，只有抬升按制图压缩——
+    每个层带抬 2.0 px（1 格 × 2 px/格），15 级合计 30 px。
+    若沿用 L0 的 16 px/级，全省会堆成 240 px 高的千层饼，版面上再没有地形可言。
+    <b class="hl">"2 m/格 + 16 px 一级"只在 L0 成立</b>，看局部请对照下一节的样张。
+  </p>
+
+  <h2>7 L0 样张（2 m/格 · 80 格视口 = 160 m）</h2>
+  <div class="gal"><figure>
+  <img src="hubei-stardew-l0-shennongjia.png" alt="神农架东麓 · 1940 m">
+  <figcaption><b>神农架东麓 · 1940 m</b><span>高山针叶，坡陡、阶距短</span></figcaption>
+</figure><figure>
+  <img src="hubei-stardew-l0-wushan.png" alt="巫山余脉 · 878 m">
+  <figcaption><b>巫山余脉 · 878 m</b><span>中山，典型阶梯坡</span></figcaption>
+</figure><figure>
+  <img src="hubei-stardew-l0-tongbai.png" alt="桐柏山前 · 294 m">
+  <figcaption><b>桐柏山前 · 294 m</b><span>丘陵，缓坡宽踏步</span></figcaption>
+</figure><figure>
+  <img src="hubei-stardew-l0-pingyuan.png" alt="江汉平原北缘 · 58 m">
+  <figcaption><b>江汉平原北缘 · 58 m</b><span>平原，无台阶，仅水面与田块</span></figcaption>
+</figure></div>
+
+  <h2>8 实测校验</h2>
+  <p class="small">下面这些数字不是规格表里抄的，是烘焙完直接遍历 <code>lift</code> 场统计出来的：逐列找"抬升发生变化"的行，量相邻两次换级的距离。它用来证明规格表没有和渲染脱节。</p>
+  <table>
+    <thead><tr><th>样张</th><th>高程 (m)</th><th>高差</th><th>最大抬升</th><th>换级处数</th><th>相邻两级间距（格）</th></tr></thead>
+    <tbody><tr>
+  <td><code>shennongjia</code><div class="small">神农架东麓 1940 m（1 km 内起伏 202 m）</div></td>
+  <td class="num">1917–1953</td>
+  <td class="num">36 m</td>
+  <td class="num">96 px</td>
+  <td class="num">97</td>
+  <td class="num small">最密 25 · 中位 <b class="hl">35</b> · 最疏 44</td>
+</tr>
+<tr>
+  <td><code>wushan</code><div class="small">巫山余脉 878 m（起伏 126 m）</div></td>
+  <td class="num">864–889</td>
+  <td class="num">25 m</td>
+  <td class="num">80 px</td>
+  <td class="num">71</td>
+  <td class="num small">最密 1 · 中位 <b class="hl">27</b> · 最疏 44</td>
+</tr>
+<tr>
+  <td><code>tongbai</code><div class="small">桐柏山前 294 m（起伏 54 m）</div></td>
+  <td class="num">287–293</td>
+  <td class="num">6 m</td>
+  <td class="num">48 px</td>
+  <td class="num">12</td>
+  <td class="num small">最密 1 · 中位 <b class="hl">11</b> · 最疏 51</td>
+</tr>
+<tr>
+  <td><code>pingyuan</code><div class="small">江汉平原北缘 58 m（起伏 6 m）</div></td>
+  <td class="num">57–59</td>
+  <td class="num">2 m</td>
+  <td class="num">16 px</td>
+  <td class="num">0</td>
+  <td class="num small">整片一级（无换级）</td>
+</tr></tbody>
+  </table>
+  <p class="small" style="margin-top:10px">
+    间距 25–44 格（神农架、巫山）= 每 50–88 m 水平升一级，属于缓坡档；
+    桐柏山前中位 11 格，是丘陵密集台阶；江汉平原整片同一级，一屏之内不换级。
+    偶尔出现 1 格（如巫山），是真实陡坎：两级台阶紧邻，合起来就是一堵 32 px 直壁——这是地形本身陡，不是衔接失败。
+  </p>
+
+</div>
+</body>
+</html>

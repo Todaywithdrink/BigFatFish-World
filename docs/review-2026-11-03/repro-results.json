@@ -1,0 +1,340 @@
+{
+  "at": "2026-11-03T10:50:34.396Z",
+  "node": "v26.13.0",
+  "source": "<repo-root>",
+  "sandbox": "E:\\DATA\\Codex\\Projects\\game-architecture-review-2026-11-03\\sandbox-bkjtVM",
+  "manifest": {
+    "sim/server.mjs": "5138a53bb46cbdc69640645d50e892e858c98412e64ea25e07f43eacaf3c7efd",
+    "sim/src/world.mjs": "7fc11c24bb0ccf8ccea72845620025b729cd1d1d3cf2d969bfe0697ba7cc4856",
+    "sim/src/map.mjs": "31afd88f3c29a2483cd617d35a166cbe28b8a1de48146efa20d5937ca15f5ff6",
+    "sim/src/tiledmap.mjs": "c5af1ec4c7fcd7991382a61bec3bb4fb1186ffc46428ef26f2b36ed0177b8ae5",
+    "sim/agents/hosted.mjs": "813c3cd29c8bbf792f5169d171abab06dd2b73816256b4a1c99adabf73f76a6a",
+    "sim/agents/brain.mjs": "2f468ce56847e642b427f50da9a3dd4c6311d65aa1a5a1a55c6f5af93031c6ff",
+    "sim/tools/selftest.mjs": "eb70f3ece3e4e30f4655ca5c31e208be261b1c96d94d8b0c30ddd10ab7462775"
+  },
+  "checks": [
+    {
+      "id": "private-text-in-muffled-event",
+      "reproduced": true,
+      "evidence": {
+        "type": "heard_muffled",
+        "nestedText": "review-only-secret"
+      }
+    },
+    {
+      "id": "uid-unmasked-in-events",
+      "reproduced": true,
+      "evidence": {
+        "masked": "D······",
+        "eventContainsFullUid": true
+      }
+    },
+    {
+      "id": "rear-terrain-discovered",
+      "reproduced": true,
+      "evidence": {
+        "visible": false,
+        "explored": true
+      }
+    },
+    {
+      "id": "rejected-build-consumes-materials",
+      "reproduced": true,
+      "evidence": {
+        "result": {
+          "ok": false,
+          "reason": "cooldown"
+        },
+        "planksBefore": 10,
+        "planksAfter": 8
+      }
+    },
+    {
+      "id": "move-reports-planned-as-moved",
+      "reproduced": true,
+      "evidence": {
+        "result": {
+          "ok": true,
+          "moved": 4,
+          "to": {
+            "x": 14,
+            "y": 10
+          },
+          "blocked": false
+        },
+        "immediateX": 10.5
+      }
+    },
+    {
+      "id": "queued-move-crosses-new-wall",
+      "reproduced": true,
+      "evidence": {
+        "finalX": 14.5,
+        "wallX": 12
+      }
+    },
+    {
+      "id": "house-door-not-registered",
+      "reproduced": true,
+      "evidence": {
+        "built": true,
+        "openResult": {
+          "ok": true,
+          "door": "opened"
+        },
+        "actuallyWalkable": false,
+        "doorRegistered": false
+      }
+    },
+    {
+      "id": "new-house-not-removable",
+      "reproduced": true,
+      "evidence": {
+        "removeResult": {
+          "ok": false,
+          "reason": "not_player_built"
+        }
+      }
+    },
+    {
+      "id": "production-map-missing-kinds",
+      "reproduced": true,
+      "evidence": {
+        "missing": [
+          "bed",
+          "stove",
+          "board",
+          "stump",
+          "crate"
+        ],
+        "result": {
+          "ok": true,
+          "built": {
+            "x": 63,
+            "y": 1,
+            "kind": "bed"
+          }
+        },
+        "actualKind": "grass",
+        "materialsAfter": {
+          "wood": 0,
+          "plank": 0
+        }
+      }
+    },
+    {
+      "id": "eat-with-empty-inventory",
+      "reproduced": true,
+      "evidence": {
+        "result": {
+          "ok": true,
+          "hunger": 40
+        },
+        "inventory": {
+          "fish": 0,
+          "berry": 0,
+          "flower": 0,
+          "wood": 0,
+          "bread": 0,
+          "stew": 0,
+          "plank": 0,
+          "flowerpot": 0,
+          "cloth": 0
+        }
+      }
+    },
+    {
+      "id": "starvation-has-no-consequence",
+      "reproduced": true,
+      "evidence": {
+        "ticks": 6000,
+        "hunger": 0,
+        "hp": 100,
+        "state": "idle"
+      }
+    },
+    {
+      "id": "free-flower-resource-source",
+      "reproduced": true,
+      "evidence": {
+        "build": {
+          "ok": true,
+          "built": {
+            "x": 11,
+            "y": 10,
+            "kind": "flower"
+          }
+        },
+        "forage": {
+          "ok": true,
+          "item": "flower",
+          "count": 1
+        }
+      }
+    },
+    {
+      "id": "barter-offer-omits-want",
+      "reproduced": true,
+      "evidence": {
+        "quoteCreated": true,
+        "event": {
+          "tick": 0,
+          "type": "quote_received",
+          "quoteId": "q2",
+          "fromId": "v1",
+          "fromName": "A",
+          "side": "sell",
+          "item": "wood",
+          "count": 1,
+          "price": 0,
+          "allowCredit": false,
+          "expiresInTicks": 600
+        }
+      }
+    },
+    {
+      "id": "remote-trade-settles",
+      "reproduced": true,
+      "evidence": {
+        "distance": 14.142135623730951,
+        "result": {
+          "ok": true,
+          "barter": {
+            "got": "wood",
+            "count": 1,
+            "gave": {
+              "item": "plank",
+              "count": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "uninvited-zero-cash-auction-winner",
+      "reproduced": true,
+      "evidence": {
+        "bidResult": {
+          "ok": true,
+          "price": 1000,
+          "leader": "B"
+        },
+        "buyerCoins": 0,
+        "sellerCoins": 0,
+        "buyerWood": 1
+      }
+    },
+    {
+      "id": "map-kind-cache-stale",
+      "reproduced": true,
+      "evidence": {
+        "nearest": {
+          "x": 2,
+          "y": 2
+        },
+        "actual": "grass"
+      }
+    },
+    {
+      "id": "save-omits-causal-state",
+      "reproduced": true,
+      "evidence": {
+        "omitted": [
+          "talent",
+          "appearance",
+          "lastBed",
+          "state",
+          "downedUntil",
+          "cooldowns",
+          "debtors",
+          "inbox"
+        ]
+      }
+    },
+    {
+      "id": "observation-includes-private-auction",
+      "reproduced": true,
+      "evidence": {
+        "count": 1
+      }
+    },
+    {
+      "id": "observation-consumes-events",
+      "reproduced": true,
+      "evidence": {
+        "firstCount": 1,
+        "secondCount": 0
+      }
+    },
+    {
+      "id": "hosted-omits-inventory-and-transactions",
+      "reproduced": true,
+      "evidence": {
+        "modelUserInput": {
+          "self": {
+            "name": "A",
+            "x": 1,
+            "y": 1,
+            "dir": 0,
+            "hp": 100,
+            "needs": {
+              "energy": 100,
+              "hunger": 100
+            },
+            "state": "idle",
+            "explored": 2
+          },
+          "seen": [],
+          "tiles": [
+            "@"
+          ],
+          "heard": [],
+          "noticed": []
+        }
+      }
+    },
+    {
+      "id": "unauthenticated-full-world",
+      "reproduced": true,
+      "evidence": {
+        "status": 200,
+        "mapWidth": 160,
+        "entities": 2
+      }
+    },
+    {
+      "id": "map-expansion-written",
+      "reproduced": true,
+      "evidence": {
+        "oldWidth": 160,
+        "savedWidth": 192
+      }
+    },
+    {
+      "id": "private-view-still-public",
+      "reproduced": true,
+      "evidence": {
+        "publicView": false,
+        "exposedInWorld": true
+      }
+    },
+    {
+      "id": "appearance-lost-on-save",
+      "reproduced": true,
+      "evidence": {
+        "memoryHasPalette": true,
+        "diskHasAppearance": false
+      }
+    },
+    {
+      "id": "restart-prefers-template-over-save",
+      "reproduced": true,
+      "evidence": {
+        "savedWidth": 192,
+        "restartedWidth": 160
+      }
+    }
+  ],
+  "reproduced": 25,
+  "total": 25
+}

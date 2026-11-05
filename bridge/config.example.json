@@ -1,0 +1,15 @@
+{
+  "port": 8787,
+  "host": "127.0.0.1",
+  "provider": "canned",
+  "ollamaUrl": "http://127.0.0.1:11434",
+  "model": "qwen2.5vl:7b",
+  "numCtx": 4096,
+  "baseUrl": "https://api.deepseek.com/v1",
+  "apiKeyEnv": "DEEPSEEK_API_KEY",
+  "temperature": 0.95,
+  "maxTokens": 80,
+  "maxChars": 80,
+  "memoryTurns": 6,
+  "systemPromptExtra": ""
+}
